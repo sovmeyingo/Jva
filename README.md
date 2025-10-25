@@ -188,8 +188,18 @@ Bu proje **The Last of Us** oyununun telif haklarına tabidir. Sadece kişisel k
 
 ## 📞 İletişim
 
-- **Discord**: Jva#1234
+- **Discord**: jvabmt
 - **GitHub**: [@jva](https://github.com/jva)
+- **Website**: [korkuyorum.com](https://korkuyorum.com)
+
+## 🔒 Security
+
+This is a public portfolio website. No sensitive data is stored in this repository.
+
+- All API endpoints are public (Lanyard, YouTube, VSCO)
+- No backend or database
+- No API keys required
+- If you find a security issue, please report it via GitHub Issues.
 
 ---
 

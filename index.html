@@ -2,7 +2,9 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <title>Jva | The Last of Us Saygı</title>
     <meta name="description" content="The Last of Us'tan ilham alan Discord profili - Dayan ve Hayatta Kal">
     <meta name="keywords" content="discord, the last of us, oyun profili, ellie, oyun">
@@ -180,6 +182,18 @@
                         </div>
                     </a>
 
+                    <a href="https://www.youtube.com/@walkoftheearths" target="_blank" class="social-card glass-card" data-platform="youtube">
+                        <div class="social-icon youtube-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122-2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" fill="currentColor"/>
+                            </svg>
+                        </div>
+                        <div class="social-info">
+                            <h3 class="social-name">YouTube</h3>
+                            <p class="social-desc">@walkoftheearths</p>
+                        </div>
+                    </a>
+
                     <a href="#" class="social-card glass-card" data-platform="github">
                         <div class="social-icon github-icon">
                             <svg viewBox="0 0 24 24">
@@ -190,6 +204,65 @@
                             <h3 class="social-name">GitHub</h3>
                             <p class="social-desc">Eklenmedi</p>
                         </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Art Gallery Section -->
+        <section 
+            id="art-gallery" 
+            class="art-gallery-section"
+            aria-label="Dijital sanat galerisi">
+            <div class="container">
+                <!-- Section Header -->
+                <div class="section-header">
+                    <h2 class="section-title">ÇİZİM GALERİM</h2>
+                    <div class="title-underline"></div>
+                    <p class="section-subtitle">Dijital sanat çalışmalarım ve illüstrasyonlarım</p>
+                </div>
+                
+                <!-- VSCO Embed Container -->
+                <div class="vsco-gallery-wrapper">
+                    <!-- Overlay Mask (Sol sidebar'ı gizler) -->
+                    <div class="vsco-sidebar-mask"></div>
+                    
+                    <!-- Footer Mask (Alt menüyü gizler) -->
+                    <div class="vsco-footer-mask"></div>
+                    
+                    <div class="vsco-embed-container">
+                        <iframe 
+                            src="https://vsco.co/cizimgalerim/gallery" 
+                            width="100%" 
+                            height="800" 
+                            frameborder="0"
+                            title="VSCO çizim galerisi - Dijital sanat çalışmaları"
+                            aria-label="Embedded VSCO gallery showing digital artwork"
+                            loading="lazy"
+                            scrolling="yes"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
+                    
+                    <!-- Gallery Overlay Effects (Optional Decorative) -->
+                    <div class="gallery-corner top-left" aria-hidden="true"></div>
+                    <div class="gallery-corner top-right" aria-hidden="true"></div>
+                    <div class="gallery-corner bottom-left" aria-hidden="true"></div>
+                    <div class="gallery-corner bottom-right" aria-hidden="true"></div>
+                </div>
+                
+                <!-- VSCO CTA Button -->
+                <div class="gallery-cta">
+                    <a 
+                        href="https://vsco.co/cizimgalerim/gallery" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        class="vsco-button"
+                        aria-label="VSCO profilinde tüm çalışmaları görüntüle">
+                        <span class="button-text">Tümünü Gör</span>
+                        <svg class="button-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+                            <path d="M10 2L8.6 3.4l5.6 5.6H2v2h12.2l-5.6 5.6L10 18l8-8-8-8z" fill="currentColor"/>
+                        </svg>
                     </a>
                 </div>
             </div>
@@ -392,6 +465,17 @@
             </div>
         </footer>
     </div>
+
+    <!-- Discord Presence Widget -->
+    <section class="discord-presence-widget">
+        <div class="presence-compact">
+            <div id="presenceContent" class="presence-content">
+                <div class="presence-loading">
+                    <div class="loading-dot"></div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Audio -->
     <audio id="background-music" loop>

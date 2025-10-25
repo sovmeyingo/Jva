@@ -1,3 +1,35 @@
+/* ===== GLOBAL RESPONSIVE FIXES ===== */
+
+/* Prevent horizontal scroll */
+html,
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
+  position: relative;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* All images responsive */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Smooth scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* iOS bounce scroll fix */
+body {
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+}
+
 /* ===== CSS VARIABLES ===== */
 :root {
   /* Dark Mode (Default) */
@@ -757,6 +789,11 @@ section {
   color: white;
 }
 
+.youtube-icon {
+  background: #FF0000;
+  color: white;
+}
+
 .steam-icon {
   background: #171a21;
   color: white;
@@ -860,15 +897,6 @@ section {
   position: relative;
 }
 
-.music-player::before {
-  content: "🎵 İdeal ses seviyesi - %15 | 🔄 Sürekli loop";
-  position: absolute;
-  top: -25px;
-  right: 0;
-  font-size: 0.75rem;
-  color: var(--text-secondary);
-  opacity: 0.7;
-}
 
 .player-header {
   display: flex;
@@ -1047,9 +1075,374 @@ section {
   letter-spacing: 1px;
 }
 
+/* ===== ART GALLERY SECTION ===== */
+.art-gallery-section {
+  padding: 6rem 2rem;
+  background: var(--bg-primary);
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.art-gallery-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger children animations */
+.art-gallery-section .section-header {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s;
+}
+
+.art-gallery-section .vsco-gallery-wrapper {
+  opacity: 0;
+  transform: scale(0.95);
+  transition: opacity 0.8s ease 0.4s, transform 0.8s ease 0.4s;
+}
+
+.art-gallery-section .gallery-cta {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease 0.6s, transform 0.6s ease 0.6s;
+}
+
+.art-gallery-section.visible .section-header,
+.art-gallery-section.visible .vsco-gallery-wrapper,
+.art-gallery-section.visible .gallery-cta {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* Section Header */
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  color: var(--text-primary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 20px rgba(198, 123, 92, 0.3);
+}
+
+.title-underline {
+  width: 100px;
+  height: 4px;
+  background: linear-gradient(90deg, 
+    transparent, 
+    var(--accent-rust), 
+    transparent);
+  margin: 1rem auto;
+  border-radius: 2px;
+}
+
+.section-subtitle {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  font-style: italic;
+  opacity: 0.9;
+}
+
+/* VSCO Gallery Wrapper */
+.vsco-gallery-wrapper {
+  position: relative;
+  max-width: 1400px;
+  margin: 0 auto 3rem;
+  overflow: hidden; /* Önemli: Taşmaları gizler */
+}
+
+/* ===== VSCO SIDEBAR MASKING ===== */
+
+/* Sidebar Masking Overlay */
+.vsco-sidebar-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 240px; /* VSCO sidebar genişliği (220-240px arası) */
+  height: 100%;
+  background: var(--bg-primary); /* Site background rengi ile maskele */
+  z-index: 10; /* Iframe'in üstünde */
+  pointer-events: none; /* Mouse event'leri iframe'e geçsin */
+  
+  /* Multi-layer gradient (daha smooth) */
+  background: 
+    linear-gradient(
+      to right,
+      var(--bg-primary) 0%,
+      var(--bg-primary) 75%,
+      rgba(26, 31, 46, 0.95) 85%,
+      rgba(26, 31, 46, 0.7) 92%,
+      transparent 100%
+    );
+  
+  /* Rust accent glow on edge */
+  box-shadow: 
+    inset -2px 0 0 rgba(198, 123, 92, 0.2),
+    inset -20px 0 40px -15px rgba(0, 0, 0, 0.5);
+  
+  /* Particle overlay effect (optional) */
+  background-image: 
+    radial-gradient(circle at 20% 50%, rgba(198, 123, 92, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 30%, rgba(198, 123, 92, 0.02) 0%, transparent 50%);
+  
+  /* Animated fade-in on load */
+  animation: maskFadeIn 0.8s ease-out;
+}
+
+@keyframes maskFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* ===== VSCO FOOTER MASKING ===== */
+
+/* Footer Masking Overlay (Alt kısım) */
+.vsco-footer-mask {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 180px; /* VSCO footer yüksekliği (150-200px arası) */
+  background: var(--bg-primary); /* Site background rengi */
+  z-index: 10; /* Iframe'in üstünde */
+  pointer-events: none; /* Mouse event'leri geçsin */
+  
+  /* Multi-layer gradient (daha smooth) */
+  background: 
+    linear-gradient(
+      to top,
+      var(--bg-primary) 0%,
+      var(--bg-primary) 65%,
+      rgba(26, 31, 46, 0.98) 75%,
+      rgba(26, 31, 46, 0.9) 85%,
+      rgba(26, 31, 46, 0.6) 92%,
+      transparent 100%
+    );
+  
+  /* Rust accent glow on top edge */
+  box-shadow: 
+    inset 0 2px 0 rgba(198, 123, 92, 0.2),
+    inset 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+  
+  /* Subtle texture overlay (optional) */
+  background-image: 
+    radial-gradient(circle at 50% 80%, rgba(198, 123, 92, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 30% 70%, rgba(198, 123, 92, 0.02) 0%, transparent 50%);
+  
+  /* Animated fade-in */
+  animation: footerMaskFadeIn 0.8s ease-out;
+}
+
+@keyframes footerMaskFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Decorative bottom accent line */
+.vsco-footer-mask::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(198, 123, 92, 0.3),
+    transparent
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.vsco-gallery-wrapper:hover .vsco-footer-mask::before {
+  opacity: 1;
+}
+
+/* Hover state - Her iki mask'ı da hafif saydam yap */
+.vsco-gallery-wrapper:hover .vsco-sidebar-mask,
+.vsco-gallery-wrapper:hover .vsco-footer-mask {
+  opacity: 0.95;
+}
+
+/* VSCO Embed Container */
+.vsco-embed-container {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 3px solid var(--accent-rust);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 40px rgba(198, 123, 92, 0.2),
+    inset 0 0 60px rgba(198, 123, 92, 0.05);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(26, 31, 46, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+.vsco-embed-container:hover {
+  transform: translateY(-8px);
+  box-shadow: 
+    0 16px 48px rgba(0, 0, 0, 0.5),
+    0 0 60px rgba(198, 123, 92, 0.4),
+    inset 0 0 80px rgba(198, 123, 92, 0.08);
+  border-color: rgba(198, 123, 92, 0.8);
+}
+
+/* Iframe positioning (sidebar + footer mask için) */
+.vsco-embed-container iframe {
+  display: block;
+  width: calc(100% + 240px); /* Sidebar için genişlik */
+  margin-left: -240px; /* Sidebar'ı sola taşır */
+  height: calc(100% + 180px); /* Footer için yükseklik */
+  min-height: 980px; /* 800px + 180px footer */
+  border: none;
+  background: transparent;
+}
+
+/* Decorative Corners (The Last of Us style) */
+.gallery-corner {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: 2px solid var(--accent-rust);
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.vsco-gallery-wrapper:hover .gallery-corner {
+  opacity: 1;
+}
+
+.gallery-corner.top-left {
+  top: -10px;
+  left: -10px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.gallery-corner.top-right {
+  top: -10px;
+  right: -10px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.gallery-corner.bottom-left {
+  bottom: -10px;
+  left: -10px;
+  border-right: none;
+  border-top: none;
+}
+
+.gallery-corner.bottom-right {
+  bottom: -10px;
+  right: -10px;
+  border-left: none;
+  border-top: none;
+}
+
+/* CTA Button */
+.gallery-cta {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.vsco-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #C67B5C, #A0522D);
+  color: white;
+  text-decoration: none;
+  border-radius: 12px;
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 
+    0 4px 16px rgba(198, 123, 92, 0.3),
+    0 2px 8px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.vsco-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.1), 
+    transparent);
+  transform: translateX(-100%);
+  transition: transform 0.4s ease;
+}
+
+.vsco-button:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 
+    0 8px 24px rgba(198, 123, 92, 0.4),
+    0 4px 12px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.vsco-button:hover::before {
+  transform: translateX(100%);
+}
+
+.vsco-button:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 
+    0 2px 8px rgba(198, 123, 92, 0.3),
+    0 1px 4px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.button-icon {
+  transition: transform 0.3s ease;
+  width: 18px;
+  height: 18px;
+  opacity: 0.9;
+}
+
+.vsco-button:hover .button-icon {
+  transform: translateX(4px);
+  opacity: 1;
+}
+
+
+
 /* ===== GALLERY SECTION ===== */
 .gallery {
-  background: var(--bg-secondary);
+  background: var(--bg-primary);
 }
 
 .gallery-grid {
@@ -1279,6 +1672,34 @@ section {
 }
 
 /* ===== RESPONSIVE DESIGN ===== */
+
+/* Tablet (768px - 1024px) */
+@media (max-width: 1024px) {
+  .art-gallery-section {
+    padding: 4rem 1.5rem;
+  }
+  
+  .vsco-sidebar-mask {
+    width: 200px; /* Sidebar mobilde daha dar */
+  }
+  
+  .vsco-footer-mask {
+    height: 160px;
+  }
+  
+  .vsco-embed-container iframe {
+    width: calc(100% + 200px);
+    margin-left: -200px;
+    height: calc(100% + 160px);
+    min-height: 860px; /* 700px + 160px */
+  }
+  
+  .section-title {
+    font-size: 2.5rem;
+  }
+  
+}
+
 @media (max-width: 768px) {
   .section-grid {
     grid-template-columns: 1fr;
@@ -1308,6 +1729,62 @@ section {
   .hero-description {
     font-size: 1rem;
   }
+  
+  /* Art Gallery Mobile Styles */
+  .art-gallery-section {
+    padding: 3rem 1rem;
+  }
+  
+  .section-header {
+    margin-bottom: 2rem;
+  }
+  
+  .section-title {
+    font-size: 2rem;
+    letter-spacing: 0.05em;
+  }
+  
+  .section-subtitle {
+    font-size: 1rem;
+  }
+  
+  .vsco-sidebar-mask {
+    width: 0; /* Mobilde VSCO zaten sidebar göstermez */
+    display: none;
+  }
+  
+  .vsco-footer-mask {
+    height: 120px; /* Mobilde footer daha küçük */
+  }
+  
+  .vsco-embed-container {
+    border-radius: 16px;
+    border-width: 2px;
+  }
+  
+  .vsco-embed-container iframe {
+    width: 100%;
+    margin-left: 0;
+    height: calc(100% + 120px);
+    min-height: 720px; /* 600px + 120px */
+  }
+  
+  .gallery-corner {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .vsco-button {
+    padding: 0.875rem 1.5rem;
+    font-size: 0.9rem;
+    gap: 0.5rem;
+  }
+  
+  .button-icon {
+    width: 16px;
+    height: 16px;
+  }
+  
 }
 
 @media (max-width: 480px) {
@@ -1329,5 +1806,1101 @@ section {
   
   .section-title {
     font-size: 2rem;
+  }
+  
+  /* Art Gallery Small Mobile Styles */
+  .vsco-embed-container iframe {
+    min-height: 500px;
+  }
+  
+  .section-title {
+    font-size: 1.75rem;
+  }
+  
+  .vsco-button {
+    width: 100%;
+    justify-content: center;
+    padding: 0.75rem 1.25rem;
+    font-size: 0.85rem;
+  }
+  
+  .button-icon {
+    width: 14px;
+    height: 14px;
+  }
+  
+  /* VSCO Footer Mask Small Mobile */
+  .vsco-footer-mask {
+    height: 100px;
+  }
+  
+  .vsco-embed-container iframe {
+    height: calc(100% + 100px);
+    min-height: 600px; /* 500px + 100px */
+  }
+  
+}
+
+/* High Resolution Displays */
+@media (min-width: 1440px) {
+  .vsco-gallery-wrapper {
+    max-width: 1600px;
+  }
+  
+  .vsco-footer-mask {
+    height: 200px; /* Büyük ekranlarda footer daha yüksek */
+  }
+  
+  .vsco-embed-container iframe {
+    height: calc(100% + 200px);
+    min-height: 1100px; /* 900px + 200px */
+  }
+  
+}
+
+/* ===== COMPACT DISCORD WIDGET ===== */
+
+.discord-presence-widget {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1000;
+}
+
+.presence-compact {
+  background: rgba(26, 31, 46, 0.85);
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(198, 123, 92, 0.3);
+  border-radius: 12px;
+  padding: 1rem;
+  min-width: 260px;
+  max-width: 300px;
+  box-shadow: 
+    0 4px 16px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(198, 123, 92, 0.1);
+  transition: all 0.3s ease;
+  animation: slideIn 0.5s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.presence-compact:hover {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 6px 24px rgba(0, 0, 0, 0.4),
+    0 0 30px rgba(198, 123, 92, 0.2);
+  border-color: rgba(198, 123, 92, 0.5);
+}
+
+/* Loading */
+.presence-loading {
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.loading-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--accent-rust);
+  border-radius: 50%;
+  margin: 0 auto;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Status Bar */
+.status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(198, 123, 92, 0.2);
+}
+
+.status-user {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.status-dot.online { background: #43B581; }
+.status-dot.idle { background: #FAA61A; }
+.status-dot.dnd { background: #F04747; }
+.status-dot.offline { background: #747F8D; }
+
+.username {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.discord-logo {
+  width: 16px;
+  height: 16px;
+  opacity: 0.5;
+}
+
+/* Activity Card (Compact) */
+.activity-card {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem;
+  background: rgba(198, 123, 92, 0.05);
+  border-radius: 8px;
+  border-left: 3px solid var(--accent-rust);
+}
+
+.activity-icon-mini {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid rgba(198, 123, 92, 0.3);
+}
+
+.activity-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.activity-name-mini {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  font-weight: 600;
+  margin-bottom: 0.15rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.activity-detail-mini {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Spotify Card */
+.spotify-card {
+  border-left-color: #1DB954;
+  background: rgba(30, 215, 96, 0.05);
+}
+
+/* ===== SPOTIFY PROGRESS BAR ===== */
+
+.spotify-progress {
+  margin-top: 0.5rem;
+}
+
+/* Progress Bar Container */
+.progress-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(30, 215, 96, 0.2);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 0.25rem;
+  box-shadow: 
+    inset 0 0 5px rgba(29, 185, 84, 0.2),
+    0 0 10px rgba(29, 185, 84, 0.1);
+}
+
+/* Progress Fill (Animated) */
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    #1DB954 0%,
+    #1ed760 50%,
+    #1DB954 100%
+  );
+  background-size: 200% 100%;
+  border-radius: 2px;
+  transition: width 0.5s linear;
+  animation: 
+    progressGradient 3s ease infinite,
+    progressPulse 2s ease-in-out infinite;
+}
+
+/* Time Display */
+.progress-time {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  opacity: 0.8;
+}
+
+.time-current {
+  color: #1DB954;
+  font-weight: 600;
+}
+
+.time-total {
+  color: var(--text-secondary);
+}
+
+/* Pulse Animation on Progress Bar */
+@keyframes progressPulse {
+  0%, 100% {
+    box-shadow: 0 0 10px rgba(29, 185, 84, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 15px rgba(29, 185, 84, 0.8);
+  }
+}
+
+@keyframes progressGradient {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Idle State (Better) */
+.idle-card {
+  text-align: center;
+  padding: 0.75rem 0;
+}
+
+.idle-icon {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.5;
+}
+
+.idle-text {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+/* Multiple Activities */
+.activities-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .discord-presence-widget {
+    bottom: 1rem;
+    right: 1rem;
+  }
+  
+  .presence-compact {
+    min-width: 240px;
+    padding: 0.75rem;
+  }
+}
+
+/* ===== MOBILE OPTIMIZATION (320px-767px) ===== */
+
+@media (max-width: 767px) {
+  /* Root font size */
+  html {
+    font-size: 14px;
+  }
+  
+  /* Typography */
+  h1 {
+    font-size: 2rem !important;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  
+  h2 {
+    font-size: 1.5rem !important;
+    line-height: 1.3;
+    margin-bottom: 0.75rem;
+  }
+  
+  h3 {
+    font-size: 1.25rem !important;
+    line-height: 1.4;
+  }
+  
+  h4 {
+    font-size: 1rem !important;
+  }
+  
+  p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+  
+  small,
+  .small-text {
+    font-size: 0.75rem;
+  }
+  
+  /* Container & Spacing */
+  .container,
+  .content-wrapper {
+    width: 100%;
+    max-width: 100%;
+    padding: 0 1rem !important;
+    margin: 0 auto;
+  }
+  
+  section {
+    padding: 3rem 1rem !important;
+    margin: 0;
+  }
+  
+  .section-gap {
+    margin: 2rem 0 !important;
+  }
+  
+  /* Hero Section */
+  .hero,
+  .hero-section {
+    height: auto;
+    min-height: 100vh;
+    padding: 2rem 1rem !important;
+    text-align: center;
+  }
+  
+  .hero-content {
+    padding: 1rem;
+    max-width: 100%;
+  }
+  
+  .hero-title {
+    font-size: 2rem !important;
+    margin-bottom: 1rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1rem !important;
+    margin-bottom: 1.5rem;
+  }
+  
+  .hero-image,
+  .hero-img {
+    width: 180px !important;
+    height: 180px !important;
+    margin: 2rem auto;
+  }
+  
+  .hero-buttons {
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+  
+  .hero-buttons .btn {
+    width: 100%;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+  
+  /* Navigation */
+  header,
+  .header {
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: rgba(26, 31, 46, 0.95);
+    backdrop-filter: blur(10px);
+  }
+  
+  .logo {
+    font-size: 1.25rem;
+    max-width: 150px;
+  }
+  
+  /* Desktop menu hide */
+  .nav-menu,
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 80%;
+    max-width: 300px;
+    height: 100vh;
+    background: rgba(26, 31, 46, 0.98);
+    backdrop-filter: blur(20px);
+    flex-direction: column;
+    padding: 5rem 2rem 2rem 2rem;
+    transition: right 0.3s ease;
+    z-index: 999;
+    overflow-y: auto;
+  }
+  
+  .nav-menu.active,
+  .nav-links.active {
+    right: 0;
+  }
+  
+  .nav-links a {
+    display: block;
+    padding: 1rem 0;
+    font-size: 1.1rem;
+    border-bottom: 1px solid rgba(198, 123, 92, 0.2);
+    width: 100%;
+  }
+  
+  /* Hamburger button */
+  .hamburger,
+  .menu-toggle {
+    display: block !important;
+    width: 44px;
+    height: 44px;
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1001;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .hamburger span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background: var(--accent-rust);
+    margin: 5px auto;
+    transition: all 0.3s;
+  }
+  
+  .hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(7px, 7px);
+  }
+  
+  .hamburger.active span:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+  }
+  
+  /* Mobile overlay */
+  .nav-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 998;
+  }
+  
+  .nav-overlay.active {
+    display: block;
+  }
+  
+  /* Grid Layouts */
+  .vsco-gallery,
+  .gallery-grid,
+  .art-gallery {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+    padding: 0;
+  }
+  
+  .vsco-item,
+  .gallery-item {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .vsco-item img,
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .youtube-grid,
+  .video-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+  
+  .youtube-video,
+  .video-item {
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+    position: relative;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  .youtube-video iframe,
+  .video-item iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .projects-grid,
+  .cards-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+  
+  /* Buttons & Forms */
+  button,
+  .btn,
+  a.btn,
+  input[type="submit"] {
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+  }
+  
+  .btn-block,
+  .button-full {
+    width: 100%;
+  }
+  
+  input,
+  textarea,
+  select {
+    width: 100%;
+    font-size: 16px !important;
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+  
+  .form-group,
+  .input-group {
+    margin-bottom: 1rem;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+  }
+  
+  /* Discord Widget - FIXED BOTTOM (Spotify Style) */
+  .discord-presence-widget {
+    position: fixed !important;
+    bottom: 20px !important;
+    left: 1rem !important;
+    right: 1rem !important;
+    width: auto !important;
+    z-index: 9999 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transition: all 0.5s ease-in-out !important;
+  }
+  
+  /* Widget görünür hale geldiğinde */
+  .discord-presence-widget.visible {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+  
+  /* Intro section'ında widget'ı tamamen gizle */
+  .intro-cinematic ~ .discord-presence-widget,
+  .intro-cinematic .discord-presence-widget,
+  body:has(.intro-cinematic) .discord-presence-widget {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+  
+  /* Intro cinematic aktifken widget'ı kesinlikle gizle */
+  .intro-cinematic:not(.hidden) ~ .discord-presence-widget,
+  .intro-cinematic:not(.hidden) .discord-presence-widget,
+  body:has(.intro-cinematic:not(.hidden)) .discord-presence-widget {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transform: translateY(100%) !important;
+  }
+  
+  /* Intro cinematic gizli değilse widget'ı gizle */
+  .intro-cinematic[style*="display: block"] ~ .discord-presence-widget,
+  .intro-cinematic[style*="display: block"] .discord-presence-widget,
+  body:has(.intro-cinematic[style*="display: block"]) .discord-presence-widget {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+  
+  .presence-container,
+  .presence-compact {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 1rem !important;
+    border-radius: 16px !important;
+    background: linear-gradient(
+      180deg,
+      rgba(26, 31, 46, 0.98) 0%,
+      rgba(20, 25, 38, 0.98) 100%
+    ) !important;
+    backdrop-filter: blur(30px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(30px) saturate(180%) !important;
+    border: 1px solid rgba(198, 123, 92, 0.3) !important;
+    box-shadow:
+      0 -8px 32px rgba(0, 0, 0, 0.6),
+      0 0 0 1px rgba(198, 123, 92, 0.2),
+      0 0 40px rgba(198, 123, 92, 0.15) !important;
+    animation: playerGlow 3s ease-in-out infinite, slideUpMobile 0.5s ease-out;
+    position: relative !important;
+    transform: none !important;
+  }
+  
+  @keyframes slideUpMobile {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  @keyframes playerGlow {
+    0%, 100% {
+      box-shadow:
+        0 -8px 32px rgba(0, 0, 0, 0.6),
+        0 0 40px rgba(198, 123, 92, 0.15);
+    }
+    50% {
+      box-shadow:
+        0 -8px 32px rgba(0, 0, 0, 0.6),
+        0 0 50px rgba(198, 123, 92, 0.25);
+    }
+  }
+  
+  /* Status bar daha compact */
+  .status-bar {
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  
+  .username {
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+  
+  /* Activity card mobile optimize */
+  .activity-card,
+  .spotify-card {
+    padding: 0.5rem;
+    border-radius: 10px;
+    background: rgba(198, 123, 92, 0.08);
+  }
+  
+  .activity-icon-mini {
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 8px;
+  }
+  
+  .activity-name-mini {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+  }
+  
+  .activity-detail-mini {
+    font-size: 0.75rem;
+    opacity: 0.8;
+  }
+  
+  /* Spotify progress bar - mobile */
+  .spotify-progress {
+    margin-top: 0.75rem;
+  }
+  
+  .progress-bar {
+    height: 3px;
+    border-radius: 2px;
+    margin-bottom: 0.4rem;
+  }
+  
+  .progress-fill {
+    height: 3px;
+  }
+  
+  .progress-time {
+    font-size: 0.7rem;
+  }
+  
+  /* Idle state */
+  .idle-card {
+    padding: 0.5rem;
+    text-align: center;
+  }
+  
+  .idle-icon {
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+  }
+  
+  .idle-text {
+    font-size: 0.75rem;
+  }
+  
+  /* Premium Spotify look */
+  .spotify-card {
+    background: linear-gradient(
+      135deg,
+      rgba(30, 215, 96, 0.1) 0%,
+      rgba(26, 31, 46, 0.95) 50%
+    );
+    border-left: 3px solid #1DB954;
+    box-shadow: 0 0 20px rgba(30, 215, 96, 0.2);
+    animation: spotifyGlow 3s ease-in-out infinite;
+  }
+  
+  @keyframes spotifyGlow {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(30, 215, 96, 0.2);
+    }
+    50% {
+      box-shadow: 0 0 30px rgba(30, 215, 96, 0.4);
+    }
+  }
+  
+  /* Swipe to hide özelliği */
+  .discord-presence-widget.hidden {
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+  }
+  
+  .discord-presence-widget {
+    transition: transform 0.3s ease;
+  }
+  
+  /* Mini indicator (yukarı kaydır ikonu) */
+  .swipe-indicator {
+    width: 40px;
+    height: 4px;
+    background: rgba(198, 123, 92, 0.5);
+    border-radius: 2px;
+    margin: 0 auto 0.5rem;
+    cursor: pointer;
+  }
+  
+  .activity-icon,
+  .activity-icon-mini {
+    width: 40px !important;
+    height: 40px !important;
+  }
+  
+  .activity-name,
+  .activity-name-mini {
+    font-size: 0.85rem !important;
+  }
+  
+  .activity-details,
+  .activity-detail-mini {
+    font-size: 0.75rem !important;
+  }
+  
+  .spotify-progress {
+    margin-top: 0.5rem;
+  }
+  
+  .progress-time {
+    font-size: 0.65rem !important;
+  }
+  
+  /* Snowflakes (Particles) */
+  .snowflake:nth-child(n+11) {
+    display: none !important;
+  }
+  
+  .snowflake {
+    font-size: 0.7rem !important;
+    animation-duration: 20s !important;
+  }
+  
+  @media (prefers-reduced-motion: reduce) {
+    .snowflake {
+      display: none !important;
+    }
+  }
+  
+  /* Cards & Content Blocks */
+  .card,
+  .content-card {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 12px;
+  }
+  
+  .card-title {
+    font-size: 1.1rem !important;
+    margin-bottom: 0.5rem;
+  }
+  
+  .card-text {
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+  
+  .card-row,
+  .flex-row {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  /* Footer */
+  footer,
+  .footer {
+    padding: 2rem 1rem;
+    text-align: center;
+  }
+  
+  .footer-content {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .footer-links {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .social-links {
+    justify-content: center;
+    gap: 1.5rem;
+  }
+  
+  .social-links a {
+    width: 44px;
+    height: 44px;
+  }
+  
+  /* Intro Cinematic */
+  .intro-cinematic,
+  .intro-overlay {
+    padding: 1rem;
+  }
+  
+  .intro-logo {
+    max-width: 200px;
+  }
+  
+  .intro-text {
+    font-size: 1rem;
+  }
+  
+  .skip-button {
+    bottom: 2rem;
+    right: 1rem;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
+  
+  /* Scroll Indicator */
+  .scroll-indicator {
+    bottom: 1rem;
+    width: 30px;
+    height: 50px;
+  }
+  
+  /* Scroll Padding - Widget fixed olduğu için gerek yok */
+  body {
+    padding-bottom: 0 !important;
+  }
+  
+  section:last-of-type {
+    padding-bottom: 2rem !important; /* Sadece biraz boşluk */
+  }
+  
+  /* Performance Optimization */
+  * {
+    animation-duration: 0.3s !important;
+    transition-duration: 0.3s !important;
+  }
+  
+  .hero,
+  .discord-presence-widget,
+  .nav-menu {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+}
+
+/* ===== TABLET OPTIMIZATION (768px-1023px) ===== */
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .container {
+    padding: 0 2rem !important;
+  }
+  
+  section {
+    padding: 4rem 2rem !important;
+  }
+  
+  h1 {
+    font-size: 3rem !important;
+  }
+  
+  h2 {
+    font-size: 2rem !important;
+  }
+  
+  h3 {
+    font-size: 1.5rem !important;
+  }
+  
+  .vsco-gallery,
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1.5rem !important;
+  }
+  
+  .youtube-grid,
+  .video-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1.5rem !important;
+  }
+  
+  .projects-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  
+  .hero-image {
+    width: 250px !important;
+    height: 250px !important;
+  }
+  
+  .nav-menu {
+    width: 50%;
+  }
+  
+  .discord-presence-widget {
+    right: 2rem;
+    left: auto;
+    width: auto;
+    max-width: 350px;
+    bottom: 2rem;
+    position: fixed;
+  }
+  
+  .presence-container {
+    border-radius: 16px;
+    border: 1px solid rgba(198, 123, 92, 0.3);
+    border-top: 1px solid rgba(198, 123, 92, 0.3);
+  }
+  
+  .swipe-indicator {
+    display: none;
+  }
+  
+  body {
+    padding-bottom: 0;
+  }
+}
+
+/* ===== LANDSCAPE MOBILE (480px-767px) ===== */
+
+@media (min-width: 480px) and (max-width: 767px) and (orientation: landscape) {
+  .hero {
+    min-height: auto;
+    padding: 2rem 1rem;
+  }
+  
+  .hero-image {
+    width: 150px !important;
+    height: 150px !important;
+  }
+  
+  .vsco-gallery {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* ===== TABLET/DESKTOP DISCORD WIDGET ===== */
+@media (min-width: 768px) {
+  /* Tablet/Desktop: Sağ alt köşe (normal) */
+  .discord-presence-widget {
+    position: fixed !important;
+    bottom: 2rem !important;
+    right: 2rem !important;
+    left: auto !important;
+    width: 350px !important;
+    max-width: 350px !important;
+    z-index: 1000 !important;
+  }
+  
+  .presence-container,
+  .presence-compact {
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 16px !important;
+    border: 1px solid rgba(198, 123, 92, 0.3) !important;
+    background: rgba(26, 31, 46, 0.95) !important;
+    backdrop-filter: blur(20px) !important;
+    -webkit-backdrop-filter: blur(20px) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), 0 0 20px rgba(198, 123, 92, 0.2) !important;
+    animation: none !important;
+  }
+  
+  .swipe-indicator {
+    display: none !important;
+  }
+  
+  body {
+    padding-bottom: 0 !important;
+  }
+}
+
+/* ===== PERFORMANCE OPTIMIZATION ===== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
