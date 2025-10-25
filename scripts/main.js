@@ -927,8 +927,22 @@ function forceDiscordWidgetFixed() {
 
 // ===== DISCORD WIDGET DELAYED SHOW =====
 function showDiscordWidgetAfterLoad() {
-  // Widget'ı başlangıçta kesinlikle gizle
   const widget = document.querySelector('.discord-presence-widget');
+  
+  // Masaüstü için widget'ı hemen göster
+  if (window.innerWidth >= 768) {
+    if (widget) {
+      widget.style.display = 'block';
+      widget.style.opacity = '1';
+      widget.style.visibility = 'visible';
+      widget.style.pointerEvents = 'auto';
+      widget.style.transform = 'translateY(0)';
+      widget.classList.add('visible');
+    }
+    return; // Masaüstü için erken çık
+  }
+  
+  // Mobile için widget'ı başlangıçta gizle
   if (widget) {
     widget.style.display = 'none';
     widget.style.opacity = '0';

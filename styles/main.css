@@ -2435,35 +2435,37 @@ section {
     visibility: visible !important;
   }
   
-  /* Intro section'ında widget'ı tamamen gizle */
-  .intro-cinematic ~ .discord-presence-widget,
-  .intro-cinematic .discord-presence-widget,
-  body:has(.intro-cinematic) .discord-presence-widget {
-    display: none !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-  }
-  
-  /* Intro cinematic aktifken widget'ı kesinlikle gizle */
-  .intro-cinematic:not(.hidden) ~ .discord-presence-widget,
-  .intro-cinematic:not(.hidden) .discord-presence-widget,
-  body:has(.intro-cinematic:not(.hidden)) .discord-presence-widget {
-    display: none !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-    transform: translateY(100%) !important;
-  }
-  
-  /* Intro cinematic gizli değilse widget'ı gizle */
-  .intro-cinematic[style*="display: block"] ~ .discord-presence-widget,
-  .intro-cinematic[style*="display: block"] .discord-presence-widget,
-  body:has(.intro-cinematic[style*="display: block"]) .discord-presence-widget {
-    display: none !important;
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
+  /* Intro section'ında widget'ı tamamen gizle (sadece mobile) */
+  @media (max-width: 767px) {
+    .intro-cinematic ~ .discord-presence-widget,
+    .intro-cinematic .discord-presence-widget,
+    body:has(.intro-cinematic) .discord-presence-widget {
+      display: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
+    
+    /* Intro cinematic aktifken widget'ı kesinlikle gizle */
+    .intro-cinematic:not(.hidden) ~ .discord-presence-widget,
+    .intro-cinematic:not(.hidden) .discord-presence-widget,
+    body:has(.intro-cinematic:not(.hidden)) .discord-presence-widget {
+      display: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+      transform: translateY(100%) !important;
+    }
+    
+    /* Intro cinematic gizli değilse widget'ı gizle */
+    .intro-cinematic[style*="display: block"] ~ .discord-presence-widget,
+    .intro-cinematic[style*="display: block"] .discord-presence-widget,
+    body:has(.intro-cinematic[style*="display: block"]) .discord-presence-widget {
+      display: none !important;
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
   }
   
   .presence-container,
@@ -2868,6 +2870,9 @@ section {
     width: 350px !important;
     max-width: 350px !important;
     z-index: 1000 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
   }
   
   .presence-container,
