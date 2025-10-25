@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #1A1F2E;
+            color: white;
+        }
+        .test-container {
+            max-width: 400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .play-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #C67B5C;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            color: white;
+            font-size: 20px;
+        }
+        .play-btn:hover {
+            transform: scale(1.1);
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            background: #252C3A;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>Audio Test</h1>
+        <p>Müzik dosyası test ediliyor...</p>
+        
+        <button class="play-btn" id="playBtn">▶</button>
+        
+        <div class="status" id="status">Hazır</div>
+        
+        <audio id="audio" preload="auto">
+            <source src="./assets/audio/The Last of Us 2 - Soundtrack - Longing (Redemptions).mp3" type="audio/mpeg">
+            <source src="./assets/audio/longing-redemptions.mp3" type="audio/mpeg">
+            Tarayıcınız audio elementini desteklemiyor.
+        </audio>
+    </div>
+
+    <script>
+        const playBtn = document.getElementById('playBtn');
+        const audio = document.getElementById('audio');
+        const status = document.getElementById('status');
+        let isPlaying = false;
+
+        // Audio event listeners
+        audio.addEventListener('loadstart', () => {
+            status.textContent = 'Audio yükleniyor...';
+        });
+
+        audio.addEventListener('canplay', () => {
+            status.textContent = 'Audio hazır - Çalabilir';
+        });
+
+        audio.addEventListener('error', (e) => {
+            status.textContent = 'HATA: Audio yüklenemedi - ' + e.message;
+            console.error('Audio error:', e);
+        });
+
+        audio.addEventListener('play', () => {
+            status.textContent = 'Çalıyor...';
+            playBtn.textContent = '⏸';
+            isPlaying = true;
+        });
+
+        audio.addEventListener('pause', () => {
+            status.textContent = 'Duraklatıldı';
+            playBtn.textContent = '▶';
+            isPlaying = false;
+        });
+
+        audio.addEventListener('ended', () => {
+            status.textContent = 'Bitti';
+            playBtn.textContent = '▶';
+            isPlaying = false;
+        });
+
+        // Play button click
+        playBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                audio.pause();
+            } else {
+                audio.play().catch(error => {
+                    status.textContent = 'Çalma hatası: ' + error.message;
+                    console.error('Play error:', error);
+                });
+            }
+        });
+    </script>
+</body>
+</html>
